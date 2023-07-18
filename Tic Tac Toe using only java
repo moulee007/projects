@@ -1,89 +1,103 @@
-import java.util.Scanner;
-class tictactoe{
+package com.practicejavaa;
+import java.util.*;
+public class Tictactoe {
+	static int a = 3;
+	static int b = 3;
+	static int start =0;
 
-static int a = 3;
-static int b = 3;
-static int start =0;
+	static boolean winorloss(char[][] toarray){//return boolean
+	  char char_value = (start ==0) ? 'X':'O';  // if the previous player is X then, current player should be O, and vice versa.
+	  //rows checking
+	      if(toarray[0][0] ==char_value && toarray[0][1] ==char_value && toarray[0][2] ==char_value) return true;
+	 else if(toarray[1][0] ==char_value && toarray[1][1] ==char_value && toarray[1][2] ==char_value) return true;
+	 else if(toarray[2][0] ==char_value && toarray[2][1] ==char_value && toarray[2][2] ==char_value) return true;
+	 //columns
+	 else if(toarray[0][0] ==char_value && toarray[1][0] ==char_value && toarray[2][0] ==char_value) return true;
+	 else if(toarray[0][1] ==char_value && toarray[1][1] ==char_value && toarray[2][1] ==char_value) return true;
+	 else if(toarray[0][2] ==char_value && toarray[1][2] ==char_value && toarray[2][2] ==char_value) return true;
+	//diagonals
+	 else if(toarray[0][0] ==char_value && toarray[1][1] ==char_value && toarray[2][2] ==char_value) return true;
+	 else if(toarray[2][0] ==char_value && toarray[1][1] ==char_value && toarray[0][2] ==char_value) return true;
+	 return false; // green light for true its red light
 
-static boolean winorloss(char[][] toarray){//return boolean
-  char char_value = (start ==0) ? 'X':'O';  // if the previous player is X then, current player should be O, and vice versa.
-  //rows checking
-      if(toarray[0][0] ==char_value && toarray[0][1] ==char_value && toarray[0][2] ==char_value) return true;
- else if(toarray[1][0] ==char_value && toarray[1][1] ==char_value && toarray[1][2] ==char_value) return true;
- else if(toarray[2][0] ==char_value && toarray[2][1] ==char_value && toarray[2][2] ==char_value) return true;
- //columns
- else if(toarray[0][0] ==char_value && toarray[1][0] ==char_value && toarray[2][0] ==char_value) return true;
- else if(toarray[0][1] ==char_value && toarray[1][1] ==char_value && toarray[2][1] ==char_value) return true;
- else if(toarray[0][2] ==char_value && toarray[1][2] ==char_value && toarray[2][2] ==char_value) return true;
-//diagonals
- else if(toarray[0][0] ==char_value && toarray[1][1] ==char_value && toarray[2][2] ==char_value) return true;
- else if(toarray[2][0] ==char_value && toarray[1][1] ==char_value && toarray[0][2] ==char_value) return true;
- return false; // green light for true its red light
+	}
+	 static boolean turns(char [][] toarray){
+	  Scanner sc = new Scanner(System.in);
+	  
+	  //char input = sc.next();
+	  int i = 0;
+	  while(i != 9){
+	  //int start = sc.nextInt();
+	 
+	    if(start == 0){
+	      System.out.println("player x is playing"+"\n"+"enter index: x y ");
+	      int x = sc.nextInt();
+	      int y = sc.nextInt();
+	      if(toarray[x][y] == 0){
+	        toarray[x][y] = 'X';
+	        if(winorloss(toarray) == true) return true;
+	        i+=1;
+	        start =1;
+	        
+	      }
+	      else{
+	        System.out.println("enter a valid value");
+	        i -=1;
+	        start =0;
+	      }
+	      display(toarray);
+	      
+
+	    }
+	    else if(start ==1){
+	      System.out.println("player O is playing"+"\n"+"enter index");
+	      int x = sc.nextInt();
+	      int y = sc.nextInt();
+	      if(toarray[x][y] == 0 ){
+	        toarray[x][y] = 'O';
+	        if(winorloss(toarray) == true) return true;
+	        start =0;
+	        i+=1;
+
+	      }
+	      else{
+	        System.out.println("Enter a valid input");
+	        start =1;
+	        i -=1;   // if player makes an invalid move then getting a move back(3*3) matrix accepts 9 inputs to fill .
+	      }
+	      display(toarray);
+	      
+	    }
+
+	  }
+	  return false;
+
+	 }
+	 static void display(char[][] toarray){
+	    for(int row =0;row<a;row++){
+	      for(int col =0;col<b;col++){
+	        System.out.print(toarray[row][col] + " |");
+	        System.out.print(" ");
+	      }
+	      System.out.println();
+	    }
+	  }
+
+	  public static void main(String[] args){ 
+	    boolean gameOver = false;
+	    char [][] toarray = new char [a][b];
+	    if(turns(toarray) == true){
+	        if(start == 0){
+	            System.out.println("player x has won");
+	        }
+	        else{
+	            System.out.println("player o has won");
+	        }
+	    }
+	    else{
+	        System.out.println("draw");
+	    }
+	    display(toarray);
 
 }
- static boolean turns(char [][] toarray){
-  Scanner sc = new Scanner(System.in);
-  
-  //char input = sc.next();
-  int i = 0;
-  while(i != 9){
-  //int start = sc.nextInt();
- 
-    if(start == 0){
-      System.out.println("player x is playing"+"\n"+"enter index: x y ");
-      int x = sc.nextInt();
-      int y = sc.nextInt();
-      if(toarray[x][y] == 0){
-        toarray[x][y] = 'X';
-        i+=1;
-        start =1;
-        
-      }
-      else{
-        System.out.println("enter a valid value");
-        i -=1;
-        start =0;
-      }
-      display(toarray);
-      if(winorloss(toarray) == true) return true;
-
-    }
-    else if(start ==1){
-      System.out.println("player O is playing"+"\n"+"enter index");
-      int x = sc.nextInt();
-      int y = sc.nextInt();
-      if(toarray[x][y] == 0 ){
-        toarray[x][y] = 'O';
-        start =0;
-        i+=1;
-
-      }
-      else{
-        System.out.println("Enter a valid input");
-        start =1;
-        i -=1;   // if player makes an invalid move then getting a move back(3*3) matrix accepts 9 inputs to fill .
-      }
-      display(toarray);
-      if(winorloss(toarray) == true) return true;
-    }
-
-  }
-  return false;
-
- }
- static void display(char[][] toarray){
-    for(int row =0;row<a;row++){
-      for(int col =0;col<b;col++){
-        System.out.print(toarray[row][col] + " |");
-        System.out.print(" ");
-      }
-      System.out.println();
-    }
-  }
-
-  public static void main(String[] args){ 
-    boolean gameOver = false;
-    char [][] toarray = new char [a][b];
-    if(turns(toarray) == true) gameOver = true;//after turns checks
-    display(toarray);
-  }}
+}
